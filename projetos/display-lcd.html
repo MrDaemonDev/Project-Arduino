@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display LCD com Mensagens - Projetos de Arduino</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Projetos de Arduino</h1>
+            <p>Aprenda a montar projetos simples e práticos para iniciantes em Arduino</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <a href="../index.html" class="back-link">← Voltar para a lista de projetos</a>
+        
+        <div class="project-header">
+            <h1>Display LCD com Mensagens</h1>
+        </div>
+        
+        <div class="project-content">
+            <div class="project-images">
+                <img src="../images/Index/LCD-esquema.png" alt="Circuito montado do display LCD">
+            
+            </div>
+            
+            <div class="project-section">
+                <h2>Objetivo</h2>
+                <p>Aprender a utilizar um display LCD 16x2 para exibir mensagens de texto e informações, criando um sistema de exibição de mensagens personalizadas.</p>
+            </div>
+            
+            <div class="project-section">
+                <h2>Materiais Necessários</h2>
+                <ul>
+                    <li>Arduino Uno (ou similar) - 1 unidade</li>
+                    <li>Display LCD 16x2 - 1 unidade</li>
+                    <li>Potenciômetro 10kΩ - 1 unidade</li>
+                    <li>Jumpers - Vários</li>
+                    <li>Protoboard - 1 unidade</li>
+                    <li>Cabo USB - 1 unidade</li>
+                </ul>
+            </div>
+            
+            <div class="project-section">
+                <h2>Passo a Passo da Montagem</h2>
+                <h3>Esquema das ligações:</h3>
+                <p><strong>Display LCD:</strong></p>
+                <ul>
+                    <li>VSS → GND</li>
+                    <li>VDD → 5V</li>
+                    <li>V0 → Terminal central do potenciômetro (para ajuste de contraste)</li>
+                    <li>RS → Pino digital 12</li>
+                    <li>RW → GND</li>
+                    <li>E → Pino digital 11</li>
+                    <li>D4 → Pino digital 5</li>
+                    <li>D5 → Pino digital 4</li>
+                    <li>D6 → Pino digital 3</li>
+                    <li>D7 → Pino digital 2</li>
+                    <li>A → 5V (backlight positivo)</li>
+                    <li>K → GND (backlight negativo)</li>
+                </ul>
+                
+                <p><strong>Potenciômetro:</strong></p>
+                <ul>
+                    <li>Terminal 1 → 5V</li>
+                    <li>Terminal 2 (central) → V0 do LCD</li>
+                    <li>Terminal 3 → GND</li>
+                </ul>
+            </div>
+            
+            <div class="project-section">
+                <h2>Código</h2>
+                <pre><code>
+#include <LiquidCrystal.h> // Inclui a biblioteca para o LCD
+
+// Inicializa a biblioteca com os pinos da interface
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+
+void setup() {
+  // Define o número de colunas e linhas do LCD
+  lcd.begin(16, 2);
+  
+  // Imprime a mensagem inicial
+  lcd.print("Ola, Mundo!");
+}
+
+void loop() {
+  // Posiciona o cursor na coluna 0, linha 1
+  // (Nota: linha 1 é a segunda linha, pois a contagem começa em 0)
+  lcd.setCursor(0, 1);
+  
+  // Imprime o número de segundos desde o reset
+  lcd.print("Tempo: ");
+  lcd.print(millis() / 1000);
+  lcd.print(" seg");
+  
+  // Aguarda um segundo
+  delay(1000);
+}
+                </code></pre>
+            </div>
+            
+            <div class="project-section">
+                <h2>Explicação do Funcionamento</h2>
+                <p>Este projeto demonstra como utilizar um display LCD para exibir informações:</p>
+                <ul>
+                    <li>O display LCD 16x2 possui 16 colunas e 2 linhas para exibir caracteres.</li>
+                    <li>A biblioteca LiquidCrystal facilita o controle do display.</li>
+                    <li>O potenciômetro é usado para ajustar o contraste do display.</li>
+                    <li>Na primeira linha, é exibida a mensagem "Olá, Mundo!".</li>
+                    <li>Na segunda linha, é exibido um contador de segundos desde que o Arduino foi ligado.</li>
+                    <li>O contador é atualizado a cada segundo.</li>
+                </ul>
+                
+                <h3>Exemplo de saída no display:</h3>
+                <pre>
+Ola, Mundo!
+Tempo: 42 seg
+                </pre>
+            </div>
+            
+            <div class="project-section">
+                <h2>Vídeo Demonstrativo</h2>
+                <iframe class="project-video" src="https://www.youtube.com/embed/8w0YCdEuIq4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> 
+                <p><a href="https://www.youtube.com/watch?v=8w0YCdEuIq4" target="_blank" class="btn">Assistir vídeo demonstrativo</a></p> 
+            </div>
+            
+            <div class="project-section">
+                <h2>Dicas e Variações</h2>
+                <p>Considerações importantes para este projeto:</p>
+                <ul>
+                    <li>Se o display estiver muito claro ou escuro, ajuste o potenciômetro para melhorar o contraste.</li>
+                    <li>Você pode criar mensagens personalizadas alterando o texto no código.</li>
+                    <li>Experimente adicionar um sensor (como temperatura ou umidade) e exibir suas leituras no display.</li>
+                    <li>Para textos longos, você pode criar uma função de rolagem que move o texto pela tela.</li>
+                    <li>Existem displays LCD com módulo I2C que simplificam a conexão, usando apenas 4 fios (VCC, GND, SDA, SCL).</li>
+                    <li>Você pode criar caracteres personalizados usando a função lcd.createChar().</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Projetos de Arduino. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo de Reação com Botões - Projetos de Arduino</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Projetos de Arduino</h1>
+            <p>Aprenda a montar projetos simples e práticos para iniciantes em Arduino</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <a href="../index.html" class="back-link">← Voltar para a lista de projetos</a>
+        
+        <div class="project-header">
+            <h1>Jogo de Reação com Botões</h1>
+        </div>
+        
+        <div class="project-content">
+            <div class="project-images">
+                <img src="../images/Index/jogo-de-reação-esquema.png" alt="Circuito montado do jogo de reação">
+            </div>
+            
+            <div class="project-section">
+                <h2>Objetivo</h2>
+                <p>Criar um jogo simples que testa o tempo de reação do jogador, acendendo um LED aleatoriamente e medindo quanto tempo o jogador leva para pressionar um botão em resposta.</p>
+            </div>
+            
+            <div class="project-section">
+                <h2>Materiais Necessários</h2>
+                <ul>
+                    <li>Arduino Uno (ou similar) - 1 unidade</li>
+                    <li>LED - 1 unidade</li>
+                    <li>Botão - 1 unidade</li>
+                    <li>Resistor 220Ω (para o LED) - 1 unidade</li>
+                    <li>Resistor 10kΩ (para o botão) - 1 unidade</li>
+                    <li>Jumpers - Alguns</li>
+                    <li>Protoboard - 1 unidade</li>
+                    <li>Cabo USB - 1 unidade</li>
+                </ul>
+            </div>
+            
+            <div class="project-section">
+                <h2>Passo a Passo da Montagem</h2>
+                <h3>Esquema das ligações:</h3>
+                <p><strong>LED:</strong></p>
+                <ul>
+                    <li>Anodo (perna maior) do LED → Pino digital 13 do Arduino</li>
+                    <li>Cátodo (perna menor) do LED → GND através de um resistor de 220Ω</li>
+                </ul>
+                
+                <p><strong>Botão:</strong></p>
+                <ul>
+                    <li>Um lado do botão → Pino digital 2 do Arduino</li>
+                    <li>Mesmo lado do botão → Resistor de 10kΩ conectado ao 5V (pull-up)</li>
+                    <li>Outro lado do botão → GND</li>
+                </ul>
+            </div>
+            
+            <div class="project-section">
+                <h2>Código</h2>
+                <pre><code>
+const int ledPin = 13;      // Pino do LED
+const int buttonPin = 2;    // Pino do botão
+const int minDelay = 2000;  // Tempo mínimo de espera (2 segundos)
+const int maxDelay = 7000;  // Tempo máximo de espera (7 segundos)
+
+int buttonState = HIGH;     // Estado atual do botão (HIGH = não pressionado com pull-up)
+int gameState = 0;          // Estado do jogo (0 = esperando início, 1 = esperando LED, 2 = esperando botão)
+unsigned long startTime;    // Tempo de início para medir a reação
+unsigned long reactionTime; // Tempo de reação do jogador
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  pinMode(buttonPin, INPUT_PULLUP); // Usando resistor pull-up interno
+  Serial.begin(9600);
+  
+  Serial.println("Jogo de Reação com Arduino");
+  Serial.println("---------------------------");
+  Serial.println("Pressione o botão para iniciar o jogo!");
+}
+
+void loop() {
+  // Lê o estado do botão (LOW = pressionado com pull-up)
+  buttonState = digitalRead(buttonPin);
+  
+  // Estado 0: Esperando o jogador iniciar o jogo
+  if (gameState == 0) {
+    if (buttonState == LOW) {
+      Serial.println("Jogo iniciado! Fique atento ao LED...");
+      delay(1000); // Pequena pausa após iniciar
+      gameState = 1;
+      
+      // Espera um tempo aleatório antes de acender o LED
+      int randomDelay = random(minDelay, maxDelay);
+      delay(randomDelay);
+      
+      // Acende o LED e registra o tempo
+      digitalWrite(ledPin, HIGH);
+      startTime = millis();
+      gameState = 2;
+      
+      Serial.println("LED aceso! Pressione o botão o mais rápido possível!");
+    }
+  }
+  
+  // Estado 2: LED aceso, esperando o jogador pressionar o botão
+  else if (gameState == 2) {
+    if (buttonState == LOW) {
+      // Jogador pressionou o botão, calcular tempo de reação
+      reactionTime = millis() - startTime;
+      digitalWrite(ledPin, LOW);
+      
+      // Exibe o resultado
+      Serial.print("Seu tempo de reação foi: ");
+      Serial.print(reactionTime);
+      Serial.println(" milissegundos");
+      
+      // Avalia o desempenho
+      if (reactionTime < 200) {
+        Serial.println("Incrível! Você tem reflexos super-rápidos!");
+      } else if (reactionTime < 300) {
+        Serial.println("Excelente! Reflexos muito bons!");
+      } else if (reactionTime < 500) {
+        Serial.println("Bom trabalho! Reflexos na média.");
+      } else {
+        Serial.println("Continue praticando para melhorar seus reflexos!");
+      }
+      
+      // Reinicia o jogo
+      Serial.println("---------------------------");
+      Serial.println("Pressione o botão para jogar novamente!");
+      gameState = 0;
+      delay(1000); // Evita múltiplos pressionamentos acidentais
+    }
+  }
+}
+                </code></pre>
+            </div>
+            
+            <div class="project-section">
+                <h2>Explicação do Funcionamento</h2>
+                <p>Este projeto cria um jogo simples para testar o tempo de reação:</p>
+                <ul>
+                    <li>O jogador pressiona o botão para iniciar o jogo.</li>
+                    <li>Após um tempo aleatório (entre 2 e 7 segundos), o LED acende.</li>
+                    <li>O jogador deve pressionar o botão o mais rápido possível quando ver o LED acender.</li>
+                    <li>O Arduino calcula e exibe o tempo de reação em milissegundos.</li>
+                    <li>O jogo avalia o desempenho do jogador com base no tempo de reação.</li>
+                    <li>O jogador pode jogar novamente pressionando o botão.</li>
+                </ul>
+                
+                <h3>Estados do jogo:</h3>
+                <ol>
+                    <li>Estado 0: Esperando o jogador iniciar o jogo</li>
+                    <li>Estado 1: Tempo de espera aleatório (não visível no código como estado separado)</li>
+                    <li>Estado 2: LED aceso, esperando o jogador pressionar o botão</li>
+                </ol>
+            </div>
+            
+            <div class="project-section">
+                <h2>Vídeo Demonstrativo</h2>
+                <iframe class="project-video" src="https://www.youtube.com/embed/12aDULA2ywo?si=mZja6tR_P1pR7-wg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <p><a href="https://youtube.com/shorts/12aDULA2ywo?si=30n_h9UuW3kaRmQo" target="_blank" class="btn">Assistir vídeo demonstrativo</a></p>
+            </div>
+            
+            <div class="project-section">
+                <h2>Dicas e Variações</h2>
+                <p>Considerações importantes para este projeto:</p>
+                <ul>
+                    <li>Você pode adicionar mais LEDs e botões para criar um jogo multiplayer, onde os jogadores competem para ver quem tem o tempo de reação mais rápido.</li>
+                    <li>Experimente adicionar um buzzer para emitir sons diferentes com base no tempo de reação.</li>
+                    <li>Para tornar o jogo mais desafiador, você pode adicionar LEDs de diferentes cores e fazer com que o jogador só pressione o botão quando uma cor específica acender.</li>
+                    <li>Você pode armazenar e exibir o melhor tempo de reação alcançado durante a sessão de jogo.</li>
+                    <li>Para uma versão mais avançada, adicione um display LCD para mostrar instruções e resultados sem precisar do monitor serial.</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Projetos de Arduino. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>

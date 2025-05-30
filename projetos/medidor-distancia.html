@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medidor de Distância com Sensor Ultrassônico - Projetos de Arduino</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Projetos de Arduino</h1>
+            <p>Aprenda a montar projetos simples e práticos para iniciantes em Arduino</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <a href="../index.html" class="back-link">← Voltar para a lista de projetos</a>
+        
+        <div class="project-header">
+            <h1>Medidor de Distância com Sensor Ultrassônico</h1>
+        </div>
+        
+        <div class="project-content">
+            <div class="project-images">
+                <img src="../images/Index/medidor-de-distância-esquema.png" alt="Circuito montado do medidor de distância">
+            </div>
+            
+            <div class="project-section">
+                <h2>Objetivo</h2>
+                <p>Criar um sistema que mede a distância entre o sensor e um objeto usando um sensor ultrassônico HC-SR04, exibindo o resultado no monitor serial ou em um display LCD.</p>
+            </div>
+            
+            <div class="project-section">
+                <h2>Materiais Necessários</h2>
+                <ul>
+                    <li>Arduino Uno (ou similar) - 1 unidade</li>
+                    <li>Sensor ultrassônico HC-SR04 - 1 unidade</li>
+                    <li>LED (opcional) - 1 unidade</li>
+                    <li>Resistor 220Ω (se usar LED) - 1 unidade</li>
+                    <li>Jumpers - Alguns</li>
+                    <li>Protoboard - 1 unidade</li>
+                    <li>Cabo USB - 1 unidade</li>
+                </ul>
+            </div>
+            
+            <div class="project-section">
+                <h2>Passo a Passo da Montagem</h2>
+                <h3>Esquema das ligações:</h3>
+                <p><strong>Sensor Ultrassônico HC-SR04:</strong></p>
+                <ul>
+                    <li>VCC → 5V do Arduino</li>
+                    <li>GND → GND do Arduino</li>
+                    <li>Trigger (TRIG) → Pino digital 9 do Arduino</li>
+                    <li>Echo (ECHO) → Pino digital 10 do Arduino</li>
+                </ul>
+                
+                <p><strong>LED (opcional para indicação visual):</strong></p>
+                <ul>
+                    <li>Anodo (perna maior) do LED → Pino digital 13 do Arduino</li>
+                    <li>Cátodo (perna menor) do LED → GND através de um resistor de 220Ω</li>
+                </ul>
+            </div>
+            
+            <div class="project-section">
+                <h2>Código</h2>
+                <pre><code>
+// Definição dos pinos
+const int trigPin = 9;    // Pino Trigger do sensor
+const int echoPin = 10;   // Pino Echo do sensor
+const int ledPin = 13;    // LED para indicação visual (opcional)
+
+// Variáveis para cálculo da distância
+long duracao;
+int distancia;
+
+void setup() {
+  pinMode(trigPin, OUTPUT);  // Define o pino Trigger como saída
+  pinMode(echoPin, INPUT);   // Define o pino Echo como entrada
+  pinMode(ledPin, OUTPUT);   // Define o LED como saída
+  Serial.begin(9600);        // Inicia a comunicação serial
+  Serial.println("Medidor de Distância com Sensor Ultrassônico");
+  Serial.println("-------------------------------------------");
+}
+
+void loop() {
+  // Limpa o pino Trigger
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  
+  // Coloca o pino Trigger em HIGH por 10 microssegundos
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  
+  // Lê o pino Echo e retorna o tempo de viagem da onda sonora em microssegundos
+  duracao = pulseIn(echoPin, HIGH);
+  
+  // Calcula a distância
+  // Velocidade do som = 340 m/s ou 0.034 cm/microssegundo
+  // A onda vai e volta, então dividimos por 2
+  distancia = duracao * 0.034 / 2;
+  
+  // Exibe a distância no monitor serial
+  Serial.print("Distância: ");
+  Serial.print(distancia);
+  Serial.println(" cm");
+  
+  // Acende o LED se o objeto estiver a menos de 10 cm (opcional)
+  if (distancia < 10) {
+    digitalWrite(ledPin, HIGH);
+  } else {
+    digitalWrite(ledPin, LOW);
+  }
+  
+  delay(500);  // Aguarda meio segundo antes da próxima medição
+}
+                </code></pre>
+            </div>
+            
+            <div class="project-section">
+                <h2>Explicação do Funcionamento</h2>
+                <p>Este projeto utiliza um sensor ultrassônico para medir distâncias:</p>
+                <ul>
+                    <li>O sensor HC-SR04 emite ondas ultrassônicas através do pino Trigger.</li>
+                    <li>Essas ondas viajam pelo ar e, ao encontrar um objeto, são refletidas de volta ao sensor.</li>
+                    <li>O pino Echo do sensor detecta as ondas refletidas.</li>
+                    <li>O Arduino mede o tempo entre a emissão e a recepção das ondas.</li>
+                    <li>Usando a velocidade do som (340 m/s), o Arduino calcula a distância até o objeto.</li>
+                    <li>A distância é exibida no monitor serial em centímetros.</li>
+                    <li>Opcionalmente, um LED acende quando um objeto está muito próximo (menos de 10 cm).</li>
+                </ul>
+                
+                <h3>Exemplo de funcionamento:</h3>
+                <ul>
+                    <li>Objeto a 5 cm: "Distância: 5 cm" e LED aceso</li>
+                    <li>Objeto a 20 cm: "Distância: 20 cm" e LED apagado</li>
+                    <li>Sem objeto (ou muito distante): "Distância: [valor máximo]" e LED apagado</li>
+                </ul>
+            </div>
+            
+            <div class="project-section">
+                <h2>Vídeo Demonstrativo</h2>
+                <iframe class="project-video" src="https://www.youtube.com/embed/57K_JmGar0Q?si=yjqyWQKKjR2huTQE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <p><a href="https://youtube.com/shorts/57K_JmGar0Q?si=yjqyWQKKjR2huTQE" target="_blank" class="btn">Assistir vídeo demonstrativo</a></p>
+            </div>
+            
+            <div class="project-section">
+                <h2>Dicas e Variações</h2>
+                <p>Considerações importantes para este projeto:</p>
+                <ul>
+                    <li>O sensor HC-SR04 tem um alcance típico de 2 cm a 400 cm.</li>
+                    <li>Para maior precisão, mantenha o sensor estável e aponte-o para superfícies planas.</li>
+                    <li>Você pode adicionar um display LCD para mostrar a distância sem precisar do computador.</li>
+                    <li>Experimente adicionar um buzzer que emite sons em frequências diferentes conforme a distância.</li>
+                    <li>Este projeto pode ser adaptado para criar um sistema de estacionamento, alarme de proximidade ou robô que evita obstáculos.</li>
+                    <li>Para medições mais precisas, considere fazer a média de várias leituras consecutivas.</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Projetos de Arduino. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>

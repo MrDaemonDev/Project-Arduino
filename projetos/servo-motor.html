@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Servo Motor - Projetos de Arduino</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Projetos de Arduino</h1>
+            <p>Aprenda a montar projetos simples e práticos para iniciantes em Arduino</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <a href="../index.html" class="back-link">← Voltar para a lista de projetos</a>
+        
+        <div class="project-header">
+            <h1>Controle de Servo Motor</h1>
+        </div>
+        
+        <div class="project-content">
+            <div class="project-images">
+                <img src="../images/Index/controle-de-servo-motor-esquema.png" alt="Circuito montado do controle de servo motor">
+            </div>
+            
+            <div class="project-section">
+                <h2>Objetivo</h2>
+                <p>Aprender a controlar a posição de um servo motor usando Arduino, permitindo movimentos precisos em um ângulo específico, ideal para projetos de robótica e automação.</p>
+            </div>
+            
+            <div class="project-section">
+                <h2>Materiais Necessários</h2>
+                <ul>
+                    <li>Arduino Uno (ou similar) - 1 unidade</li>
+                    <li>Servo motor (pequeno, tipo SG90) - 1 unidade</li>
+                    <li>Potenciômetro 10kΩ - 1 unidade</li>
+                    <li>Jumpers - Alguns</li>
+                    <li>Protoboard - 1 unidade</li>
+                    <li>Cabo USB - 1 unidade</li>
+                </ul>
+            </div>
+            
+            <div class="project-section">
+                <h2>Passo a Passo da Montagem</h2>
+                <h3>Esquema das ligações:</h3>
+                <p><strong>Servo Motor:</strong></p>
+                <ul>
+                    <li>Fio Vermelho (alimentação) → 5V do Arduino</li>
+                    <li>Fio Marrom ou Preto (GND) → GND do Arduino</li>
+                    <li>Fio Laranja ou Amarelo (sinal) → Pino digital 9 do Arduino</li>
+                </ul>
+                
+                <p><strong>Potenciômetro:</strong></p>
+                <ul>
+                    <li>Terminal 1 → 5V</li>
+                    <li>Terminal 2 (central) → Pino analógico A0</li>
+                    <li>Terminal 3 → GND</li>
+                </ul>
+            </div>
+            
+            <div class="project-section">
+                <h2>Código</h2>
+                <pre><code>
+#include <Servo.h> // Inclui a biblioteca para controle do servo
+
+Servo meuServo;  // Cria um objeto servo para controlar o servo motor
+int potPin = A0; // Pino analógico conectado ao potenciômetro
+int valorPot;    // Variável para armazenar o valor do potenciômetro
+int angulo;      // Variável para armazenar o ângulo do servo
+
+void setup() {
+  meuServo.attach(9);  // Conecta o servo ao pino 9
+  Serial.begin(9600);  // Inicia a comunicação serial
+}
+
+void loop() {
+  valorPot = analogRead(potPin);            // Lê o valor do potenciômetro (0-1023)
+  angulo = map(valorPot, 0, 1023, 0, 180);  // Converte para ângulo (0-180)
+  meuServo.write(angulo);                   // Define a posição do servo
+  
+  // Exibe informações no monitor serial
+  Serial.print("Valor do potenciômetro: ");
+  Serial.print(valorPot);
+  Serial.print(" | Ângulo: ");
+  Serial.println(angulo);
+  
+  delay(15);  // Pequena pausa para o servo se mover
+}
+                </code></pre>
+            </div>
+            
+            <div class="project-section">
+                <h2>Explicação do Funcionamento</h2>
+                <p>Este projeto demonstra como controlar um servo motor:</p>
+                <ul>
+                    <li>O servo motor é um tipo de motor que pode ser posicionado em um ângulo específico (geralmente entre 0° e 180°).</li>
+                    <li>O potenciômetro funciona como um controle manual para ajustar a posição do servo.</li>
+                    <li>Ao girar o potenciômetro, o Arduino lê o valor analógico (0-1023) e o converte para um ângulo (0-180).</li>
+                    <li>O servo se move para a posição correspondente ao ângulo calculado.</li>
+                    <li>O monitor serial exibe o valor do potenciômetro e o ângulo correspondente para facilitar a visualização.</li>
+                </ul>
+                
+                <h3>Exemplo de funcionamento:</h3>
+                <ul>
+                    <li>Potenciômetro totalmente para a esquerda: servo a 0° (posição inicial)</li>
+                    <li>Potenciômetro no meio: servo a 90° (posição central)</li>
+                    <li>Potenciômetro totalmente para a direita: servo a 180° (posição final)</li>
+                </ul>
+            </div>
+            
+            <div class="project-section">
+                <h2>Vídeo Demonstrativo</h2>
+                <iframe class="project-video" src="https://www.youtube.com/embed/lcpWZRZhVMU?si=_yLI8tEJ_kmim6MF" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <p><a href="https://youtube.com/shorts/lcpWZRZhVMU?si=_yLI8tEJ_kmim6MF" target="_blank" class="btn">Assistir vídeo demonstrativo</a></p>
+            </div>
+            
+            <div class="project-section">
+                <h2>Dicas e Variações</h2>
+                <p>Considerações importantes para este projeto:</p>
+                <ul>
+                    <li>Alguns servos podem precisar de uma fonte de alimentação externa, especialmente se você estiver usando mais de um servo.</li>
+                    <li>Você pode substituir o potenciômetro por outros sensores, como um sensor de luz (LDR) ou um sensor de distância.</li>
+                    <li>Para projetos mais avançados, experimente controlar o servo com botões para movê-lo em incrementos específicos.</li>
+                    <li>Você pode criar uma sequência programada de movimentos para o servo, útil em projetos de robótica.</li>
+                    <li>Tenha cuidado com os limites físicos do seu servo específico, alguns podem ter um alcance menor que 0-180°.</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Projetos de Arduino. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>

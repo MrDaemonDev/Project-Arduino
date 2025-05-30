@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Lanterna com LED - Projetos de Arduino</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Projetos de Arduino</h1>
+            <p>Aprenda a montar projetos simples e práticos para iniciantes em Arduino</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <a href="../index.html" class="back-link">← Voltar para a lista de projetos</a>
+        
+        <div class="project-header">
+            <h1>Mini Lanterna com LED</h1>
+        </div>
+        
+        <div class="project-content">
+            <div class="project-images">
+                <img src="../images/Pages/mini-lanterna-esquema-a.png" alt="Circuito montado da mini lanterna">
+                <img src="../images/Pages/mini-lanterna-esquema-b.png" alt="Esquema da protoboard da mini lanterna">
+            </div>
+            
+            <div class="project-section">
+                <h2>Objetivo</h2>
+                <p>Criar uma lanterna simples que acende um LED reutilizado, controlado por um botão, usando o Arduino.</p>
+            </div>
+            
+            <div class="project-section">
+                <h2>Materiais Necessários</h2>
+                <ul>
+                    <li>Arduino Uno (ou similar) - 1 unidade</li>
+                    <li>LED reutilizado - 1 unidade</li>
+                    <li>Resistor 220Ω - 1 unidade</li>
+                    <li>Botão reutilizado - 1 unidade</li>
+                    <li>Jumpers - Alguns</li>
+                    <li>Protoboard - 1 unidade</li>
+                    <li>Bateria reutilizada (opcional) - 1 unidade</li>
+                    <li>Cabo USB (ou suporte para bateria) - 1 unidade</li>
+                </ul>
+                <p><strong>Observação:</strong> A bateria pode ser usada para alimentar o Arduino por um conector externo ou via módulo 5V se tiver.</p>
+            </div>
+            
+            <div class="project-section">
+                <h2>Passo a Passo da Montagem</h2>
+                <h3>Esquema das ligações:</h3>
+                <p><strong>Botão:</strong></p>
+                <ul>
+                    <li>Um lado do botão vai no GND.</li>
+                    <li>Outro lado do botão vai no pino digital 2 do Arduino.</li>
+                    <li>Usa-se o resistor pull-up interno do Arduino.</li>
+                </ul>
+                
+                <p><strong>LED:</strong></p>
+                <ul>
+                    <li>Anodo (perna maior) do LED no pino digital 13.</li>
+                    <li>Cátodo do LED no GND com resistor de 220Ω em série.</li>
+                </ul>
+            </div>
+            
+            <div class="project-section">
+                <h2>Código</h2>
+                <pre><code>
+// Definição dos pinos
+const int ledPin = 13;     // LED no pino 13
+const int buttonPin = 2;   // Botão no pino 2
+
+void setup() {
+  pinMode(ledPin, OUTPUT);         // Define o LED como saída
+  pinMode(buttonPin, INPUT_PULLUP); // Botão como entrada com resistor interno pull-up
+}
+
+void loop() {
+  int estadoBotao = digitalRead(buttonPin); // Lê o estado do botão
+
+  if (estadoBotao == LOW) {
+    // Se o botão estiver pressionado (LOW por causa do pull-up)
+    digitalWrite(ledPin, HIGH);  // Acende o LED
+  } else {
+    digitalWrite(ledPin, LOW);   // Apaga o LED
+  }
+}
+                </code></pre>
+            </div>
+            
+            <div class="project-section">
+                <h2>Explicação do Funcionamento</h2>
+                <p>Este projeto funciona da seguinte maneira:</p>
+                <ul>
+                    <li>O botão está normalmente em HIGH (graças ao INPUT_PULLUP).</li>
+                    <li>Ao pressionar, ele conecta ao GND (LOW), então o LED acende.</li>
+                    <li>Soltou o botão, volta pra HIGH, LED apaga.</li>
+                </ul>
+                
+                <h3>Exemplo de entrada/saída:</h3>
+                <ul>
+                    <li>Botão pressionado: LED acende.</li>
+                    <li>Botão solto: LED apaga.</li>
+                </ul>
+            </div>
+            
+            <div class="project-section">
+                <h2>Vídeo Demonstrativo</h2>
+                <iframe class="project-video" src="https://www.youtube.com/embed/BT9NAdDdyyg?si=QGbV8BpsatJHNc_u" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                
+                <p><a href="https://youtube.com/shorts/BT9NAdDdyyg?si=QGbV8BpsatJHNc_u" target="_blank" class="btn">Assistir vídeo demonstrativo</a></p>
+            </div>
+            
+            <div class="project-section">
+                <h2>Dicas e Variações</h2>
+                <p>Considerações importantes para este projeto:</p>
+                <ul>
+                    <li>Teste o LED antes (alguns são RGB ou precisam de mais tensão).</li>
+                    <li>Sempre use resistor para proteger o LED.</li>
+                    <li>Se for usar uma bateria reutilizada, pode ser necessário um módulo regulador para converter de 3.7V para 5V para o Arduino (ex: módulo boost com saída USB).</li>
+                    <li>Se quiser que o LED fique aceso com um toque e apague com outro, é possível modificar o código para usar estado de botão com toggle.</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Projetos de Arduino. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>

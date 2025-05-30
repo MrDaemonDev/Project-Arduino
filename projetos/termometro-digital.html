@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Termômetro Digital - Projetos de Arduino</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Projetos de Arduino</h1>
+            <p>Aprenda a montar projetos simples e práticos para iniciantes em Arduino</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <a href="../index.html" class="back-link">← Voltar para a lista de projetos</a>
+        
+        <div class="project-header">
+            <h1>Termômetro Digital</h1>
+        </div>
+        
+        <div class="project-content">
+            <div class="project-images">
+                <img src="../images/Index/termômetro-digital-esquema.png" alt="Esquema da protoboard do termômetro digital">
+            </div>
+            
+            <div class="project-section">
+                <h2>Objetivo</h2>
+                <p>Criar um termômetro digital usando o sensor de temperatura DHT11 para medir a temperatura ambiente e exibir os resultados no monitor serial.</p>
+            </div>
+            
+            <div class="project-section">
+                <h2>Materiais Necessários</h2>
+                <ul>
+                    <li>Arduino Uno (ou similar) - 1 unidade</li>
+                    <li>Sensor de temperatura e umidade DHT11 - 1 unidade</li>
+                    <li>Resistor 10kΩ - 1 unidade</li>
+                    <li>LED (opcional) - 1 unidade</li>
+                    <li>Resistor 220Ω (se usar LED) - 1 unidade</li>
+                    <li>Jumpers - Alguns</li>
+                    <li>Protoboard - 1 unidade</li>
+                    <li>Cabo USB - 1 unidade</li>
+                </ul>
+            </div>
+            
+            <div class="project-section">
+                <h2>Passo a Passo da Montagem</h2>
+                <h3>Esquema das ligações:</h3>
+                <p><strong>Sensor DHT11:</strong></p>
+                <ul>
+                    <li>Pino VCC (ou +) → 5V do Arduino</li>
+                    <li>Pino DATA (ou S) → Pino digital 2 do Arduino</li>
+                    <li>Pino GND (ou -) → GND do Arduino</li>
+                    <li>Resistor de 10kΩ entre VCC e DATA (resistor pull-up)</li>
+                </ul>
+                
+                <p><strong>LED (opcional para indicação visual):</strong></p>
+                <ul>
+                    <li>Anodo (perna maior) do LED → Pino digital 13 do Arduino</li>
+                    <li>Cátodo (perna menor) do LED → GND através de um resistor de 220Ω</li>
+                </ul>
+            </div>
+            
+            <div class="project-section">
+                <h2>Código</h2>
+                <pre><code>
+#include <DHT.h>  // Inclui a biblioteca DHT
+
+#define DHTPIN 2       // Pino digital conectado ao sensor DHT
+#define DHTTYPE DHT11  // Define o tipo de sensor (DHT11)
+#define LEDPIN 13      // Pino do LED (opcional)
+
+DHT dht(DHTPIN, DHTTYPE);  // Inicializa o sensor DHT
+
+void setup() {
+  Serial.begin(9600);     // Inicia a comunicação serial
+  pinMode(LEDPIN, OUTPUT); // Define o LED como saída
+  dht.begin();            // Inicializa o sensor DHT
+  
+  Serial.println("Termômetro Digital com DHT11");
+  Serial.println("----------------------------");
+}
+
+void loop() {
+  // Aguarda 2 segundos entre as medições (o sensor DHT11 é lento)
+  delay(2000);
+  
+  // Lê a temperatura em Celsius
+  float temperatura = dht.readTemperature();
+  
+  // Lê a umidade
+  float umidade = dht.readHumidity();
+  
+  // Verifica se a leitura falhou
+  if (isnan(temperatura) || isnan(umidade)) {
+    Serial.println("Falha na leitura do sensor DHT!");
+    return;
+  }
+  
+  // Exibe os resultados no monitor serial
+  Serial.print("Temperatura: ");
+  Serial.print(temperatura);
+  Serial.println(" °C");
+  
+  Serial.print("Umidade: ");
+  Serial.print(umidade);
+  Serial.println(" %");
+  
+  Serial.println("----------------------------");
+  
+  // Acende o LED se a temperatura estiver acima de 30°C (opcional)
+  if (temperatura > 30) {
+    digitalWrite(LEDPIN, HIGH);
+  } else {
+    digitalWrite(LEDPIN, LOW);
+  }
+}
+                </code></pre>
+            </div>
+            
+            <div class="project-section">
+                <h2>Explicação do Funcionamento</h2>
+                <p>Este projeto utiliza um sensor DHT11 para medir temperatura e umidade:</p>
+                <ul>
+                    <li>O sensor DHT11 é capaz de medir temperaturas entre 0°C e 50°C e umidade entre 20% e 90%.</li>
+                    <li>A biblioteca DHT facilita a leitura dos dados do sensor.</li>
+                    <li>O Arduino lê a temperatura e umidade a cada 2 segundos.</li>
+                    <li>Os valores são exibidos no monitor serial.</li>
+                    <li>Opcionalmente, um LED acende quando a temperatura ultrapassa 30°C, servindo como um alerta visual.</li>
+                </ul>
+                
+                <h3>Exemplo de saída no monitor serial:</h3>
+                <pre>
+Termômetro Digital com DHT11
+----------------------------
+Temperatura: 25.60 °C
+Umidade: 45.00 %
+----------------------------
+                </pre>
+            </div>
+            
+            <div class="project-section">
+                <h2>Vídeo Demonstrativo</h2>
+                <iframe class="project-video" src="https://www.youtube.com/embed/TOSADpvuViE?si=VHx7dTf4vPN1kCkB" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <p><a href="https://youtu.be/TOSADpvuViE?si=VHx7dTf4vPN1kCkB" target="_blank" class="btn">Assistir vídeo demonstrativo</a></p>
+            </div>
+            
+            <div class="project-section">
+                <h2>Dicas e Variações</h2>
+                <p>Considerações importantes para este projeto:</p>
+                <ul>
+                    <li>O sensor DHT11 tem precisão de ±2°C para temperatura e ±5% para umidade. Para maior precisão, considere usar o DHT22.</li>
+                    <li>Não faça leituras do sensor em intervalos menores que 2 segundos, pois ele é relativamente lento.</li>
+                    <li>Você pode adicionar um display LCD para mostrar a temperatura e umidade sem precisar do computador.</li>
+                    <li>Experimente adicionar um buzzer que emite um alerta sonoro quando a temperatura ultrapassa um limite definido.</li>
+                    <li>Este projeto pode ser expandido para criar uma estação meteorológica simples, adicionando outros sensores como pressão atmosférica.</li>
+                    <li>Para aplicações de longo prazo, considere registrar os dados em um cartão SD ou enviá-los para a internet.</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Projetos de Arduino. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>

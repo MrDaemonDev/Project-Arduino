@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensor de Luminosidade com LDR - Projetos de Arduino</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Projetos de Arduino</h1>
+            <p>Aprenda a montar projetos simples e práticos para iniciantes em Arduino</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <a href="../index.html" class="back-link">← Voltar para a lista de projetos</a>
+        
+        <div class="project-header">
+            <h1>Sensor de Luminosidade com LDR</h1>
+        </div>
+        
+        <div class="project-content">
+            <div class="project-images">
+                <img src="../images/Index/sensor-de-luminosidade-esquema.png" alt="Circuito montado do sensor de luminosidade">
+            </div>
+            
+            <div class="project-section">
+                <h2>Objetivo</h2>
+                <p>Criar um sistema que detecta a intensidade da luz ambiente usando um sensor LDR (Light Dependent Resistor) e acende um LED quando o ambiente fica escuro, funcionando como um sistema automático de iluminação.</p>
+            </div>
+            
+            <div class="project-section">
+                <h2>Materiais Necessários</h2>
+                <ul>
+                    <li>Arduino Uno (ou similar) - 1 unidade</li>
+                    <li>Sensor LDR - 1 unidade</li>
+                    <li>LED - 1 unidade</li>
+                    <li>Resistor 10kΩ - 1 unidade</li>
+                    <li>Resistor 220Ω - 1 unidade</li>
+                    <li>Jumpers - Alguns</li>
+                    <li>Protoboard - 1 unidade</li>
+                    <li>Cabo USB - 1 unidade</li>
+                </ul>
+            </div>
+            
+            <div class="project-section">
+                <h2>Passo a Passo da Montagem</h2>
+                <h3>Esquema das ligações:</h3>
+                <p><strong>Sensor LDR:</strong></p>
+                <ul>
+                    <li>Um terminal do LDR conectado ao 5V do Arduino.</li>
+                    <li>Outro terminal do LDR conectado ao pino analógico A0 e também a um resistor de 10kΩ.</li>
+                    <li>A outra extremidade do resistor de 10kΩ conectada ao GND (formando um divisor de tensão).</li>
+                </ul>
+                
+                <p><strong>LED:</strong></p>
+                <ul>
+                    <li>Anodo (perna maior) do LED conectado ao pino digital 13.</li>
+                    <li>Cátodo (perna menor) do LED conectado ao GND através de um resistor de 220Ω.</li>
+                </ul>
+            </div>
+            
+            <div class="project-section">
+                <h2>Código</h2>
+                <pre><code>
+// Definição dos pinos
+const int pinoLDR = A0;    // Sensor LDR no pino analógico A0
+const int pinoLED = 13;    // LED no pino digital 13
+
+// Valor limite para considerar ambiente escuro
+const int limiarEscuro = 500;  // Ajuste este valor conforme a sensibilidade desejada
+
+void setup() {
+  pinMode(pinoLED, OUTPUT);    // Define o LED como saída
+  Serial.begin(9600);          // Inicia comunicação serial para monitoramento
+}
+
+void loop() {
+  // Lê o valor do sensor LDR (0 a 1023)
+  int valorLDR = analogRead(pinoLDR);
+  
+  // Exibe o valor no monitor serial
+  Serial.print("Valor do sensor: ");
+  Serial.println(valorLDR);
+  
+  // Verifica se está escuro
+  if (valorLDR > limiarEscuro) {
+    digitalWrite(pinoLED, HIGH);  // Acende o LED se estiver escuro
+  } else {
+    digitalWrite(pinoLED, LOW);   // Apaga o LED se estiver claro
+  }
+  
+  delay(500);  // Pequena pausa para estabilização
+}
+                </code></pre>
+            </div>
+            
+            <div class="project-section">
+                <h2>Explicação do Funcionamento</h2>
+                <p>Este projeto funciona baseado nas propriedades do LDR (Light Dependent Resistor):</p>
+                <ul>
+                    <li>O LDR é um componente cuja resistência varia conforme a intensidade da luz que incide sobre ele.</li>
+                    <li>Quando há muita luz, a resistência do LDR diminui.</li>
+                    <li>Quando há pouca luz (escuro), a resistência do LDR aumenta.</li>
+                    <li>O Arduino lê essa variação de resistência através do pino analógico A0.</li>
+                    <li>Se o valor lido for maior que o limiar definido (ambiente escuro), o LED acende.</li>
+                    <li>Se o valor lido for menor que o limiar (ambiente claro), o LED apaga.</li>
+                </ul>
+                
+                <h3>Exemplo de entrada/saída:</h3>
+                <ul>
+                    <li>Ambiente claro: LED apagado.</li>
+                    <li>Ambiente escuro: LED aceso.</li>
+                    <li>O monitor serial exibe os valores lidos do sensor para ajudar na calibração.</li>
+                </ul>
+            </div>
+            
+            <div class="project-section">
+                <h2>Vídeo Demonstrativo</h2>
+                <iframe class="project-video" src="https://www.youtube.com/embed/3a3dY8Tom8E" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+                <p><a href="https://www.youtube.com/watch?v=3a3dY8Tom8E" target="_blank" class="btn">Assistir vídeo demonstrativo</a></p>
+            </div>
+            
+            <div class="project-section">
+                <h2>Dicas e Variações</h2>
+                <p>Considerações importantes para este projeto:</p>
+                <ul>
+                    <li>O valor do limiar (500) pode precisar de ajustes dependendo do seu ambiente e do LDR utilizado.</li>
+                    <li>Use o Monitor Serial para verificar os valores lidos e determinar o melhor limiar para seu ambiente.</li>
+                    <li>Você pode adicionar mais LEDs ou até mesmo um relé para controlar lâmpadas reais.</li>
+                    <li>Uma variação interessante é criar um sistema que varia a intensidade do LED proporcionalmente à luminosidade ambiente, usando PWM.</li>
+                    <li>Experimente adicionar um potenciômetro para ajustar o limiar de sensibilidade sem precisar reprogramar o Arduino.</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Projetos de Arduino. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>

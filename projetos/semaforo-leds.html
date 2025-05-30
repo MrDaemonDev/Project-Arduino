@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semáforo com LEDs - Projetos de Arduino</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Projetos de Arduino</h1>
+            <p>Aprenda a montar projetos simples e práticos para iniciantes em Arduino</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <a href="../index.html" class="back-link">← Voltar para a lista de projetos</a>
+        
+        <div class="project-header">
+            <h1>Semáforo com LEDs</h1>
+        </div>
+        
+        <div class="project-content">
+            <div class="project-images">
+                <img src="../images/Pages/semaforo-esquema-a.png" alt="Circuito montado do semáforo">
+                <img src="../images/Pages/semaforo-esquema-ab.png" alt="Esquema da protoboard do semáforo">
+            </div>
+            
+            <div class="project-section">
+                <h2>Objetivo</h2>
+                <p>Criar um semáforo de trânsito em miniatura usando três LEDs (vermelho, amarelo e verde) que acendem em sequência, simulando o funcionamento de um semáforo real.</p>
+            </div>
+            
+            <div class="project-section">
+                <h2>Materiais Necessários</h2>
+                <ul>
+                    <li>Arduino Uno (ou similar) - 1 unidade</li>
+                    <li>LED Vermelho - 1 unidade</li>
+                    <li>LED Amarelo - 1 unidade</li>
+                    <li>LED Verde - 1 unidade</li>
+                    <li>Resistores 220Ω - 3 unidades</li>
+                    <li>Jumpers - Alguns</li>
+                    <li>Protoboard - 1 unidade</li>
+                    <li>Cabo USB - 1 unidade</li>
+                </ul>
+            </div>
+            
+            <div class="project-section">
+                <h2>Passo a Passo da Montagem</h2>
+                <h3>Esquema das ligações:</h3>
+                <p><strong>LEDs:</strong></p>
+                <ul>
+                    <li>Anodo (perna maior) do LED Vermelho no pino digital 13.</li>
+                    <li>Anodo (perna maior) do LED Amarelo no pino digital 12.</li>
+                    <li>Anodo (perna maior) do LED Verde no pino digital 11.</li>
+                    <li>Cátodos (pernas menores) de todos os LEDs conectados ao GND com resistores de 220Ω em série.</li>
+                </ul>
+            </div>
+            
+            <div class="project-section">
+                <h2>Código</h2>
+                <pre><code>
+// Definição dos pinos
+const int pinoVermelho = 13;  // LED Vermelho no pino 13
+const int pinoAmarelo = 12;   // LED Amarelo no pino 12
+const int pinoVerde = 11;     // LED Verde no pino 11
+
+void setup() {
+  // Configura os pinos como saída
+  pinMode(pinoVermelho, OUTPUT);
+  pinMode(pinoAmarelo, OUTPUT);
+  pinMode(pinoVerde, OUTPUT);
+}
+
+void loop() {
+  // Sinal Verde - 5 segundos
+  digitalWrite(pinoVermelho, LOW);
+  digitalWrite(pinoAmarelo, LOW);
+  digitalWrite(pinoVerde, HIGH);
+  delay(5000);
+  
+  // Sinal Amarelo - 2 segundos
+  digitalWrite(pinoVermelho, LOW);
+  digitalWrite(pinoAmarelo, HIGH);
+  digitalWrite(pinoVerde, LOW);
+  delay(2000);
+  
+  // Sinal Vermelho - 5 segundos
+  digitalWrite(pinoVermelho, HIGH);
+  digitalWrite(pinoAmarelo, LOW);
+  digitalWrite(pinoVerde, LOW);
+  delay(5000);
+}
+                </code></pre>
+            </div>
+            
+            <div class="project-section">
+                <h2>Explicação do Funcionamento</h2>
+                <p>Este projeto simula o funcionamento de um semáforo de trânsito:</p>
+                <ul>
+                    <li>O LED verde fica aceso por 5 segundos, indicando que os veículos podem passar.</li>
+                    <li>Em seguida, o LED amarelo acende por 2 segundos, alertando que o sinal vai mudar.</li>
+                    <li>Por fim, o LED vermelho acende por 5 segundos, indicando que os veículos devem parar.</li>
+                    <li>O ciclo se repete continuamente, assim como em um semáforo real.</li>
+                </ul>
+                
+                <h3>Sequência de funcionamento:</h3>
+                <ol>
+                    <li>Verde (5 segundos) → Amarelo (2 segundos) → Vermelho (5 segundos) → Verde...</li>
+                </ol>
+            </div>
+            
+            <div class="project-section">
+                <h2>Vídeo Demonstrativo</h2>
+                <iframe class="project-video" src="https://www.youtube.com/embed/PS2W7q2XGMk?si=TblmE_kQb_QWvG-j" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+                <p><a href="https://youtube.com/shorts/PS2W7q2XGMk?si=TblmE_kQb_QWvG-j" target="_blank" class="btn">Assistir vídeo demonstrativo</a></p>
+            </div>
+            
+            <div class="project-section">
+                <h2>Dicas e Variações</h2>
+                <p>Considerações importantes para este projeto:</p>
+                <ul>
+                    <li>Você pode ajustar os tempos de cada fase do semáforo alterando os valores de delay() no código.</li>
+                    <li>Para um projeto mais realista, você pode adicionar um segundo semáforo para pedestres que funcione de forma sincronizada (vermelho para carros = verde para pedestres).</li>
+                    <li>Experimente adicionar um botão que, quando pressionado, simule o botão de pedestres, fazendo o semáforo mudar para vermelho.</li>
+                    <li>Para um efeito mais interessante, você pode fazer o LED amarelo piscar antes de mudar para o vermelho.</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Projetos de Arduino. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>

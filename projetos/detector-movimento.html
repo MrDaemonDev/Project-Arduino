@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detector de Movimento com Alerta - Projetos de Arduino</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Projetos de Arduino</h1>
+            <p>Aprenda a montar projetos simples e práticos para iniciantes em Arduino</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <a href="../index.html" class="back-link">← Voltar para a lista de projetos</a>
+        
+        <div class="project-header">
+            <h1>Detector de Movimento com Alerta (LED ou Buzzer do Vape)</h1>
+        </div>
+        
+        <div class="project-content">
+            <div class="project-images">
+                <img src="../images/Pages/detector-movimento-esquema-l.png" alt="Esquema da protoboard do detector de movimento">
+                <img src="../images/Pages/detector-movimento-esquema-b.png" alt="Esquema da protoboard do detector de movimento">
+            </div>
+            
+            <div class="project-section">
+                <h2>Objetivo</h2>
+                <p>Criar um sistema simples de alarme que acende um LED (ou toca um buzzer) quando detectar movimento, reaproveitando peças de um vape.</p>
+            </div>
+            
+            <div class="project-section">
+                <h2>Materiais Necessários</h2>
+                <ul>
+                    <li>Arduino Uno (ou similar) - 1 unidade</li>
+                    <li>Sensor de movimento PIR - 1 unidade</li>
+                    <li>LED ou buzzer (reaproveitado do vape) - 1 unidade</li>
+                    <li>Resistor 220Ω (caso use LED) - 1 unidade</li>
+                    <li>Jumpers - Alguns</li>
+                    <li>Protoboard - 1 unidade</li>
+                    <li>Cabo USB (ou bateria com boost) - 1 unidade</li>
+                </ul>
+            </div>
+            
+            <div class="project-section">
+                <h2>Passo a Passo da Montagem</h2>
+                <h3>Ligações:</h3>
+                <p><strong>Sensor PIR:</strong></p>
+                <ul>
+                    <li>VCC → 5V do Arduino</li>
+                    <li>GND → GND</li>
+                    <li>OUT → pino digital 2</li>
+                </ul>
+                
+                <p><strong>LED/Buzzer:</strong></p>
+                <ul>
+                    <li>Pino positivo do LED ou buzzer → pino digital 13</li>
+                    <li>Pino negativo → GND</li>
+                    <li>Use resistor de 220Ω se for LED</li>
+                </ul>
+            </div>
+            
+            <div class="project-code">
+                <h2>Código</h2>
+                <pre><code>
+const int sensorPIR = 2;     // Pino do sensor de movimento
+const int alarmePin = 13;    // LED ou buzzer
+
+void setup() {
+  pinMode(sensorPIR, INPUT);   // Sensor como entrada
+  pinMode(alarmePin, OUTPUT);  // Saída do alarme
+  Serial.begin(9600);          // Para debug no monitor serial
+}
+
+void loop() {
+  int movimento = digitalRead(sensorPIR); // Lê o sensor
+
+  if (movimento == HIGH) {
+    // Movimento detectado
+    digitalWrite(alarmePin, HIGH); // Liga LED ou buzzer
+    Serial.println("Movimento detectado!");
+    delay(2000); // Mantém por 2 segundos
+  } else {
+    digitalWrite(alarmePin, LOW);  // Desliga
+  }
+}
+                </code></pre>
+            </div>
+            
+            <div class="project-section">
+                <h2>Explicação do Funcionamento</h2>
+                <p>Este projeto funciona da seguinte maneira:</p>
+                <ul>
+                    <li>O sensor PIR detecta movimento.</li>
+                    <li>Se detectar alguém, acende o LED ou aciona o buzzer do vape.</li>
+                    <li>Fica ativo por alguns segundos, depois volta a escanear.</li>
+                </ul>
+                
+                <h3>Exemplo de entrada/saída:</h3>
+                <ul>
+                    <li>Pessoa passa na frente do sensor: LED acende ou buzzer toca por 2 segundos.</li>
+                    <li>Nada na frente: LED/buzzer fica desligado.</li>
+                </ul>
+            </div>
+            
+            <div class="project-section">
+                <h2>Vídeo Demonstrativo</h2>
+                <iframe class="project-video" src="https://www.youtube.com/embed/L2fkkrk8dHA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            
+                <p><a href="https://www.youtube.com/watch?v=L2fkkrk8dHA" target="_blank" class="btn">Assistir vídeo demonstrativo</a></p>
+            </div>
+            
+            <div class="project-section">
+                <h2>Dicas e Variações</h2>
+                <p>Considerações importantes para este projeto:</p>
+                <ul>
+                    <li>O tempo de detecção e desligamento pode ser ajustado com delay().</li>
+                    <li>Se for usar o buzzer do vape, ele pode precisar de corrente maior – se for o caso, usa um transistor.</li>
+                    <li>A sensibilidade e tempo do PIR podem ser ajustados em trimpots na placa.</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Projetos de Arduino. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>
