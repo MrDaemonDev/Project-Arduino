@@ -8,6 +8,7 @@
   --border-color: #dee2e6; /* Cor usada para bordas de elementos. */
   --success-color: #28a745; /* Cor para indicar sucesso ou ações positivas. */
   --hover-color: #0056b3; /* Cor para o estado de hover (passar o mouse) em elementos interativos. */
+  --highlight-color: #ff6b00; /* Cor de destaque para elementos importantes */
 }
 
 /* Reseta as margens e preenchimentos padrão de todos os elementos e define o box-sizing para border-box. */
@@ -124,6 +125,17 @@ header p {
   background-color: var(--hover-color); /* Altera a cor de fundo ao hover. */
 }
 
+/* Estilo para botão de destaque */
+.btn-highlight {
+  background-color: var(--highlight-color);
+  font-size: 1.1rem;
+  padding: 0.7rem 1.5rem;
+}
+
+.btn-highlight:hover {
+  background-color: #e05f00;
+}
+
 /* Estilos da página de projeto */
 /* Estilos para o cabeçalho da página de projeto. */
 .project-header {
@@ -208,6 +220,29 @@ header p {
   text-decoration: underline; /* Adiciona sublinhado ao hover. */
 }
 
+/* Estilo para o banner de compartilhamento de projetos */
+.share-project-banner {
+  background-color: white;
+  border-radius: 8px;
+  padding: 2rem;
+  margin: 2rem 0;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-left: 5px solid var(--highlight-color);
+}
+
+.share-project-banner h2 {
+  color: var(--highlight-color);
+  margin-bottom: 0.5rem;
+  font-size: 1.8rem;
+}
+
+.share-project-banner p {
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+  color: var(--secondary-color);
+}
+
 /* Responsividade */
 /* Media query para telas com largura máxima de 768px (tablets e dispositivos menores). */
 @media (max-width: 768px) {
@@ -235,6 +270,19 @@ header p {
   .project-section h2 {
     font-size: 1.5rem;
   }
+  
+  /* Ajusta o banner de compartilhamento para telas menores */
+  .share-project-banner {
+    padding: 1.5rem;
+  }
+  
+  .share-project-banner h2 {
+    font-size: 1.5rem;
+  }
+  
+  .share-project-banner p {
+    font-size: 1rem;
+  }
 }
 
 /* Media query para telas com largura máxima de 480px (smartphones). */
@@ -248,6 +296,15 @@ header p {
   .project-images {
     grid-template-columns: 1fr;
   }
+  
+  /* Ajusta o banner de compartilhamento para smartphones */
+  .share-project-banner {
+    padding: 1.2rem;
+  }
+  
+  .share-project-banner h2 {
+    font-size: 1.3rem;
+  }
 }
 
 /* Estilos para o rodapé. */
@@ -258,7 +315,6 @@ footer {
   padding: 1.5rem 0; /* Preenchimento vertical. */
   margin-top: 2rem; /* Margem superior para separar do conteúdo. */
 }
-
 
 /* Estilos para blocos de código */
 pre {
@@ -295,4 +351,3 @@ code {
     font-size: 0.8em; /* Reduz ainda mais a fonte */
   }
 }
-

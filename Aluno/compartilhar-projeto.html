@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compartilhe seu Projeto - Projetos de Arduino</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/form-style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Projetos de Arduino</h1>
+            <p>Aprenda a montar projetos simples e práticos para iniciantes em Arduino</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <a href="../index.html" class="back-link">← Voltar para a lista de projetos</a>
+        
+        <div class="project-header">
+            <h1>Compartilhe seu Projeto</h1>
+            <p>Registre e compartilhe seus projetos de Arduino com outros alunos</p>
+        </div>
+        
+        <div class="project-content">
+            <div class="form-container">
+                <form id="projeto-form" class="projeto-form">
+                    <div class="form-section">
+                        <h2>Informações Básicas</h2>
+                        
+                        <div class="form-group">
+                            <label for="nome-projeto">Nome do Projeto*</label>
+                            <input type="text" id="nome-projeto" name="nome-projeto" placeholder="Ex: Detector de Movimento com LED RGB" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="autor">Autor/Equipe*</label>
+                            <input type="text" id="autor" name="autor" placeholder="Seu nome ou nome da equipe" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="escola">Escola/Instituição*</label>
+                            <input type="text" id="escola" name="escola" placeholder="Nome da sua escola ou instituição" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="categoria">Categoria*</label>
+                            <select id="categoria" name="categoria" required>
+                                <option value="">Selecione uma categoria</option>
+                                <option value="sensores">Sensores</option>
+                                <option value="atuadores">Atuadores</option>
+                                <option value="displays">Displays e Visualização</option>
+                                <option value="jogos">Jogos e Entretenimento</option>
+                                <option value="automacao">Automação</option>
+                                <option value="outro">Outro</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h2>Descrição do Projeto</h2>
+                        
+                        <div class="form-group">
+                            <label for="descricao">Descrição*</label>
+                            <textarea id="descricao" name="descricao" rows="5" placeholder="Descreva o que seu projeto faz e como ele funciona..." required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="objetivo">Objetivo do Projeto*</label>
+                            <textarea id="objetivo" name="objetivo" rows="3" placeholder="Qual o objetivo principal do seu projeto?" required></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h2>Materiais e Montagem</h2>
+                        
+                        <div class="form-group">
+                            <label for="materiais">Lista de Materiais*</label>
+                            <textarea id="materiais" name="materiais" rows="5" placeholder="Liste todos os componentes necessários (um por linha):
+- Arduino Uno
+- LED vermelho
+- Resistor 220Ω
+- etc." required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="montagem">Passo a Passo da Montagem</label>
+                            <textarea id="montagem" name="montagem" rows="5" placeholder="Descreva como montar o projeto passo a passo..."></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h2>Código</h2>
+                        
+                        <div class="form-group">
+                            <label for="codigo">Código-fonte do Arduino*</label>
+                            <textarea id="codigo" name="codigo" rows="10" placeholder="Cole aqui o código do seu projeto..." required></textarea>
+                            <p class="form-help">Dica: Certifique-se de incluir comentários explicando as partes importantes do código.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h2>Imagens e Vídeo</h2>
+                        
+                        <div class="form-group">
+                            <label for="imagem-principal">Imagem Principal*</label>
+                            <div class="file-upload">
+                                <input type="file" id="imagem-principal" name="imagem-principal" accept="image/*" required>
+                                <label for="imagem-principal" class="file-upload-label">Escolher arquivo</label>
+                                <span class="file-name">Nenhum arquivo selecionado</span>
+                            </div>
+                            <p class="form-help">Imagem principal do seu projeto (esquema ou foto do projeto finalizado).</p>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="imagens-adicionais">Imagens Adicionais</label>
+                            <div class="file-upload">
+                                <input type="file" id="imagens-adicionais" name="imagens-adicionais" accept="image/*" multiple>
+                                <label for="imagens-adicionais" class="file-upload-label">Escolher arquivos</label>
+                                <span class="file-name">Nenhum arquivo selecionado</span>
+                            </div>
+                            <p class="form-help">Você pode adicionar até 5 imagens adicionais do seu projeto.</p>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="video">Link do Vídeo (YouTube)</label>
+                            <input type="url" id="video" name="video" placeholder="https://www.youtube.com/watch?v=...">
+                            <p class="form-help">Se você tem um vídeo demonstrativo no YouTube, cole o link aqui.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Compartilhar Projeto</button>
+                        <button type="reset" class="btn btn-secondary">Limpar Formulário</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="project-header">
+            <h1>Projetos Compartilhados Recentemente</h1>
+        </div>
+        
+        <div class="projects-grid">
+            <!-- Projeto Compartilhado 1 -->
+            <div class="project-card">
+                <img src="../images/Index/detector-movimento-esquema.png" alt="Detector de Movimento Avançado" class="project-image">
+                <div class="project-info">
+                    <h3>Detector de Movimento Avançado</h3>
+                    <p>Por: Maria Silva - Escola Técnica Federal</p>
+                    <p>Sistema que detecta movimento e envia notificação para o celular.</p>
+                    <div class="project-meta">
+                        <span class="project-likes">12 curtidas</span>
+                        <span class="project-date">Há 2 dias</span>
+                    </div>
+                    <a href="#" class="btn">Ver Detalhes</a>
+                </div>
+            </div>
+            
+            <!-- Projeto Compartilhado 2 -->
+            <div class="project-card">
+                <img src="../images/Index/LCD-esquema.png" alt="Estação Meteorológica" class="project-image">
+                <div class="project-info">
+                    <h3>Estação Meteorológica</h3>
+                    <p>Por: João Pereira - Colégio Dom Pedro</p>
+                    <p>Monitora temperatura, umidade e pressão com display LCD.</p>
+                    <div class="project-meta">
+                        <span class="project-likes">8 curtidas</span>
+                        <span class="project-date">Há 5 dias</span>
+                    </div>
+                    <a href="#" class="btn">Ver Detalhes</a>
+                </div>
+            </div>
+            
+            <!-- Projeto Compartilhado 3 -->
+            <div class="project-card">
+                <img src="../images/Index/jogo-de-reação-esquema.png" alt="Quiz Eletrônico" class="project-image">
+                <div class="project-info">
+                    <h3>Quiz Eletrônico</h3>
+                    <p>Por: Ana Costa - Instituto Federal</p>
+                    <p>Jogo de perguntas e respostas com botões e LEDs.</p>
+                    <div class="project-meta">
+                        <span class="project-likes">15 curtidas</span>
+                        <span class="project-date">Há 1 semana</span>
+                    </div>
+                    <a href="#" class="btn">Ver Detalhes</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Projetos de Arduino. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>
